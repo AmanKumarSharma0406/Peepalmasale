@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Peepal Masale — Finest Handpicked Blends</title>
+  <meta name="description" content="Peepal Masale — Finest handpicked organic Indian spices. Organic, hygienically packed, authentic taste." />
+  <meta name="keywords" content="organic spices, turmeric, haldi, mirch, dhaniya, peepal masale" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- main css (you can replace or keep) -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Small, critical fixes added inline to avoid overlap & ensure proper modal / layout behavior.
+       These rules are safe to move to style.css later if you prefer one file. -->
+  <style>
+    :root{
+      --bg:#0f0a07;
+      --muted:#bfb6a8;
+      --accent-gold:#d4af37;
+      --accent-leaf:#7ba05b;
+      --card-bg: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.03);
+      --container:1100px;
+      --radius:14px;
+      --shadow: 0 20px 40px rgba(11,7,5,0.45), inset 0 -6px 20px rgba(0,0,0,0.35);
+      --ease:cubic-bezier(.25,.85,.25,1);
+    }
+    /* quick reset + container */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:#efeae3;}
+    .container{width:min(92%,var(--container));margin:0 auto}
+    header{position:sticky;top:0;z-index:60;background:linear-gradient(180deg,rgba(15,10,7,0.78),rgba(15,10,7,0.45));padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:10px;background:var(--card-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 8px 18px rgba(0,0,0,0.5)}
+    .nav-links{display:flex;gap:14px;align-items:center}
+    .nav a{color:var(--muted);font-size:14px;text-decoration:none}
+    .menu-toggle{display:none;background:transparent;border:0;color:var(--muted);font-size:20px}
+
+    /* hero */
+    .hero{padding:28px 0 20px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="600"><defs><pattern id="p" width="120" height="120" patternUnits="userSpaceOnUse"><rect width="120" height="120" fill="%231e1108"/></pattern></defs><rect width="100%" height="100%" fill="%23160b06"/><g opacity="0.04"><rect width="100%" height="100%" fill="url(%23p)"/></g></svg>');background-size:cover;position:relative;overflow:visible}
+    .hero-inner{display:flex;flex-direction:column;gap:18px;padding:6px 0}
+    .hero-badge{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:flex-start}
+    .tagline{font-family:Merriweather,serif;font-size:20px;margin:0;color:#fff8eb}
+    .subline{color:var(--muted);font-size:14px;margin:6px 0 0}
+
+    .hero-cta{margin-top:12px;display:flex;gap:12px}
+    .btn{border:0;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer;transition:transform .28s var(--ease),box-shadow .28s var(--ease)}
+    .btn-primary{background:var(--accent-leaf);color:#07200b}
+    .btn-secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* Featured / Products grid */
+    .products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+    .product-card{background:var(--card-bg);padding:12px;border-radius:12px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .product-card img{width:100%;height:120px;object-fit:cover;border-radius:8px;background:#2a170d}
+    .product-card h3{font-family:Merriweather,serif;margin:10px 0 0;color:#efe6db;font-size:15px}
+    .section-title{font-family:Merriweather,serif;font-size:22px;margin:8px 0 0;color:#efe6db}
+
+    /* modal fixes - center and not overlap */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:120;padding:20px;background:linear-gradient(0deg, rgba(0,0,0,0.6), rgba(0,0,0,0.45))}
+    .modal.open{display:flex}
+    .modal-card{width:min(980px,98%);max-height:90vh;overflow:auto;border-radius:16px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 30px 60px rgba(0,0,0,0.7)}
+    .modal-grid{display:grid;grid-template-columns:1fr;gap:14px}
+    .modal-image img{max-width:100%;border-radius:8px;display:block}
+    .modal-close{position:absolute;right:28px;top:20px;background:transparent;border:0;color:var(--muted);font-size:20px}
+
+    /* responsive adjustments */
+    @media(min-width:720px){
+      .hero-inner{flex-direction:row;align-items:flex-start}
+      .products-grid{grid-template-columns:repeat(4,1fr)}
+      .nav-links{display:flex}
+      .menu-toggle{display:none}
+      .modal-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(min-width:1000px){
+      .products-grid{grid-template-columns:repeat(5,1fr)}
+    }
+
+    /* small utilities */
+    .fade-in{opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+    .fade-in.show{opacity:1;transform:none}
+    a{color:inherit}
+  </style>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%232f1608%22/><path d=%22M30 60 C40 20 60 20 70 60%22 stroke=%22%23d4af37%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>">
+</head>
+<body>
+
+  <!-- HEADER / NAV -->
+  <header>
+    <div class="container nav">
+      <div class="brand" aria-label="Peepal Masale">
+        <div class="logo" title="Peepal Masale">
+          <!-- inline svg logo -->
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#9bbf7a"/>
+                <stop offset="1" stop-color="#3f7a3a"/>
+              </linearGradient>
+            </defs>
+            <path d="M32 6 C22 8 10 18 10 30 C10 42 22 52 32 56 C42 52 54 42 54 30 C54 18 42 8 32 6 Z" fill="url(#g1)"/>
+            <path d="M32 14 C26 20 24 26 28 32 C30 36 34 40 36 44" fill="none" stroke="#2b4b29" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1 style="margin:0">PEEPAL MASALE</h1>
+          <p style="margin:0;font-size:13px;color:var(--muted)">Finest Handpicked Blends</p>
+        </div>
+      </div>
+
+      <nav class="nav-links hide-mobile" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#featured">Featured</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a class="cta-primary" href="#products" style="background:var(--accent-gold);padding:8px 12px;border-radius:8px;color:#2b1b0b;font-weight:700">Shop Now</a>
+      </nav>
+
+      <button class="menu-toggle" aria-expanded="false" aria-controls="mobileMenu" id="menuToggle">☰</button>
+    </div>
+
+    <!-- mobile menu -->
+    <div id="mobileMenu" style="display:none;padding:10px 20px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)">
+      <div class="container" style="display:flex;flex-direction:column;gap:8px">
+        <a href="#home" class="mobile-link">Home</a>
+        <a href="#featured" class="mobile-link">Featured</a>
+        <a href="#products" class="mobile-link">Products</a>
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#contact" class="mobile-link">Contact</a>
+      </div>
+    </div>
+  </header>
+<div id="cartBox" 
+  style="position: fixed; top: 20px; right: 20px; 
+  background: rgba(255,255,255,0.07); 
+  padding: 12px 18px; 
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  font-size: 14px;
+  color: #fff;
+  z-index: 999;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  cursor: pointer;">
+  🛒 Cart: <span id="cartCount">0</span>
+</div>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero" aria-label="Homepage hero">
+      <div class="container hero-inner">
+        <div style="max-width:720px;">
+          <div class="hero-badge fade-in" data-animate>
+            <div style="width:56px;height:56px;border-radius:8px;background:linear-gradient(90deg,var(--accent-gold),#f3de7a);display:flex;align-items:center;justify-content:center">
+              <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 6 C22 8 10 18 10 30 C10 42 22 52 32 56 C42 52 54 42 54 30 C54 18 42 8 32 6 Z" fill="#fff8e6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="tagline">Finest Handpicked Blends — From Nature to Your Kitchen</p>
+              <p class="subline">Small-batch organic spices sourced ethically from Indian farms, blended and packed with love and hygiene.</p>
+              <div class="hero-cta">
+                <a class="btn btn-primary" href="#featured">Shop Featured</a>
+                <a class="btn btn-secondary" href="#products">Explore Products</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero art / showcase -->
+        <div class="hero-art fade-in" data-animate style="max-width:420px;">
+          <div style="font-family:Merriweather,serif;font-size:18px;margin-bottom:8px;color:#efe6db">Premium Blends</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="background:linear-gradient(180deg,#2a170d,#1e0f07);border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:center">
+              <img alt="Peepal box" src="images/box.webp" onerror="this.src='https://via.placeholder.com/200x150'" style="max-width:100%;height:auto;border-radius:8px"/>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;justify-content:center">
+              <div style="font-size:13px;color:var(--muted)">Handcrafted blends</div>
+              <div style="font-weight:700;color:#fff8eb">Earthy, aromatic, pure</div>
+              <div style="font-size:12px;color:var(--muted)">Small batches • No preservatives</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <!-- FEATURED PRODUCTS -->
+<section id="featured" class="featured container" style="padding:20px 0">
+  <h2 class="section-title">Featured Products</h2>
+
+  <div class="products-grid">
+
+    <div class="product-card" data-id="haldi">
+      <img src="images/Haldi.jpeg" alt="Haldi"
+      onerror="this.src='images/placeholder.svg'">
+      <h3>Haldi (Turmeric)</h3>
+    </div>
+
+    <div class="product-card" data-id="mirch">
+      <img src="images/Redchilli.jpeg" alt="Mirch"
+      onerror="this.src='images/placeholder.svg'">
+      <h3>Mirch (Chilli)</h3>
+    </div>
+
+    <div class="product-card" data-id="dhaniya">
+      <img src="images/Dhaniya.jpeg" alt="Dhaniya"
+     onerror="this.onerror=null; this.src='images/placeholder.svg'">
+      <h3>Dhaniya (Coriander)</h3>
+    </div>
+
+    <div class="product-card" data-id="black-pepper">
+      <img src="images/Blackpepper.jpeg" alt="Black Pepper"
+     onerror="this.onerror=null; this.src='images/placeholder.svg'">
+      <h3>Black Pepper</h3>
+    </div>
+
+    <div class="product-card" data-id="garam-masala">
+      <img src="images/Garam.jpeg" alt="Garam Masala"
+      onerror="this.src='images/placeholder.svg'">
+      <h3>Garam Masala</h3>
+    </div>
+
+  </div>
+</section>
+
+   <!-- ALL PRODUCTS -->
+<section id="products" class="products-page container" style="padding:18px 0">
+  <h2 class="section-title">Products</h2>
+  <p style="color:var(--muted);">Shop our curated range of organic spices — click a product to view details.</p>
+
+  <div class="products-grid" style="margin-top:12px">
+
+    <div class="product-card" data-id="amchur">
+      <img src="images/Amchur.jpeg" alt="Amchur" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Amchur</h3>
+    </div>
+
+    <div class="product-card" data-id="cinnamon">
+      <img src="images/Cinnamon.jpeg" alt="Cinnamon" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Cinnamon</h3>
+    </div>
+
+    <div class="product-card" data-id="dhaniya-powder">
+      <img src="images/coriander.jpeg" alt="Dhaniya Powder" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Dhaniya (Powder)</h3>
+    </div>
+
+    <div class="product-card" data-id="garam-masala">
+      <img src="images/Garam.jpeg" alt="Garam Masala" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Garam Masala</h3>
+    </div>
+
+    <div class="product-card" data-id="haldi">
+      <img src="images/Haldi.jpeg" alt="Haldi" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Turmeric</h3>
+    </div>
+
+    <div class="product-card" data-id="jeera">
+      <img src="images/Jira.jpeg" alt="Jeera" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Jeera</h3>
+    </div>
+
+    <div class="product-card" data-id="kali-mirch">
+      <img src="images/Kalimirch.jpeg" alt="Kali Mirch" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Kali Mirch</h3>
+    </div>
+
+    <div class="product-card" data-id="red-chilli">
+      <img src="images/Redchilli.jpeg" alt="Red Chilli" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Red Chilli</h3>
+    </div>
+
+    <div class="product-card" data-id="s-jeera">
+      <img src="images/Sabut-Jeera.png" alt="Sabut Jeera" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Sabut Jeera</h3>
+    </div>
+
+    <div class="product-card" data-id="s-dhaniya">
+      <img src="images/Sabut-Dhaniya.png" alt="Sabut Dhaniya" onerror="this.src='https://via.placeholder.com/300'">
+      <h3>Sabut Dhaniya</h3>
+    </div>
+
+  </div>
+</section>
+
+    <!-- PRODUCT MODAL (hidden by default, centered when open) -->
+    <div id="productModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+      <div class="modal-card" role="document">
+        <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+        <div class="modal-grid">
+          <div>
+            <div class="modal-image" id="modalImage" style="background:transparent;padding:6px;border-radius:8px">
+              <img alt="Product large" id="modalImgEl" src="" />
+            </div>
+            <div style="margin-top:10px;color:var(--muted);font-size:13px">Zoom: click image</div>
+          </div>
+          <div>
+            <h2 id="modalTitle" style="font-family:Merriweather,serif;margin-top:6px">Product Name</h2>
+            <div id="modalShort" style="color:var(--muted);margin-top:6px">Short description here.</div>
+
+            <div class="specs" style="margin-top:12px">
+              <h4 style="margin:0 0 6px 0">Key Features</h4>
+              <ul id="modalFeatures" style="color:var(--muted);margin:0;padding-left:18px"></ul>
+
+              <h4 style="margin:10px 0 6px 0">Ingredients</h4>
+              <div id="modalIngredients" style="color:var(--muted)">—</div>
+
+              <h4 style="margin:10px 0 6px 0">Shelf Life & Packaging</h4>
+              <div id="modalShelf" style="color:var(--muted)">—</div>
+            </div>
+
+            <div class="buy-row" style="margin-top:12px;display:flex;gap:10px;align-items:center">
+              <div id="modalPrice" style="font-size:18px;font-weight:700;color:var(--accent-gold)">₹ —</div>
+              <button class="btn btn-primary" id="addToCartBtn">Add to Cart</button>
+              <button class="btn btn-secondary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Have a Question?</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="container" style="padding:30px 0">
+      <h2 class="section-title">About Peepal Masale</h2>
+      <p style="color:var(--muted)">We source premium spices ethically from small farms, process in small batches, and ensure hygienic packing.</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="container" style="padding:30px 0">
+      <h2 class="section-title">Contact Us</h2>
+      <p style="color:var(--muted)">Email: hello@peepalmasale.example | WhatsApp: +91 9XXXXXXXXX</p>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="padding:22px 0;border-top:1px solid rgba(255,255,255,0.02)">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <div><div style="font-family:Merriweather,serif">PEEPAL MASALE</div><div style="color:var(--muted);font-size:13px">© Peepal Masale</div></div>
+      <div style="display:flex;gap:10px;align-items:center"><a href="#privacy" style="color:var(--muted)">Privacy Policy</a><a href="#terms" style="color:var(--muted)">Terms</a></div>
+    </div>
+  </footer>
+<!-- CART BUTTON -->
+<button id="cartBtn" class="cart-btn">
+  🛒 Cart (<span id="cartCount">0</span>)
+</button>
+
+<!-- SIDE CART -->
+<div id="cartDrawer" class="cart-drawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button id="closeCart" class="close-cart">✕</button>
+  </div>
+
+  <div id="cartItems" class="cart-items"></div>
+
+  <div class="cart-footer">
+    <div class="cart-total">
+      Total: <span id="cartTotal">₹0</span>
+    </div>
+    <button class="checkout-btn">Checkout</button>
+  </div>
+</div>
+
+  <script>
+  // fade-in observer (keeps small scroll animation)
+  const elements = document.querySelectorAll("[data-animate]");
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add("show"); });
+  }, {threshold:0.12});
+  elements.forEach(el => observer.observe(el));
+
+  
+  document.getElementById('closeModal')?.addEventListener('click', ()=> {
+    const modal = document.getElementById('productModal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+  });
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  menuToggle?.addEventListener('click', ()=>{
+    const m = document.getElementById('mobileMenu');
+    if (m.style.display === 'flex') m.style.display = 'none';
+    else m.style.display = 'flex';
+  });
+   
+  </script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
